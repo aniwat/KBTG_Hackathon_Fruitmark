@@ -8,7 +8,7 @@ public class SampleController {
 	
 	@RequestMapping("/")
 	public String index() {
-		System.out.println("Call SampleController");
+		System.out.println("Call SampleController " + System.currentTimeMillis());
 		return "sample";
 	}
 	
