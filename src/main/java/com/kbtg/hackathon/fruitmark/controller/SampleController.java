@@ -8,6 +8,7 @@ public class SampleController {
 	
 	@RequestMapping("/")
 	public String index() {
+		System.out.println("Call SampleController");
 		return "sample";
 	}
 	
