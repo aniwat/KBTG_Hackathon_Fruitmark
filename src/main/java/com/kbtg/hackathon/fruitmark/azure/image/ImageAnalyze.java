@@ -11,17 +11,21 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 
 public class ImageAnalyze {
+	
+	
+	@Autowired
+	private Environment env;
 	
     // **********************************************
     // *** Update or verify the following values. ***
     // **********************************************
 
     // Replace <Subscription Key> with your valid subscription key.
-	@Value("${azure.subscription.key}")
-    private String subscriptionKey;
+    private String subscriptionKey = "17c91ddddd45477aa6a723d3ea4bc76a";
 
     // You must use the same Azure region in your REST API method as you used to
     // get your subscription keys. For example, if you got your subscription keys
@@ -31,8 +35,7 @@ public class ImageAnalyze {
     // Free trial subscription keys are generated in the "westus" region.
     // If you use a free trial subscription key, you shouldn't need to change
     // this region.
-	@Value("${azure.cognitive.uri}")
-    private String uriBase;
+    private String uriBase = "https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/analyze?visualFeatures=Categories&language=en";
 
     private String imageToAnalyze;
     
@@ -61,7 +64,6 @@ public class ImageAnalyze {
             StringEntity requestEntity =
                     new StringEntity("{\"url\":\"" + imageToAnalyze + "\"}");
             request.setEntity(requestEntity);
-            System.out.println("url : " + requestEntity);
             // Call the REST API method and get the response entity.
             HttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
@@ -72,9 +74,8 @@ public class ImageAnalyze {
                 String jsonString = EntityUtils.toString(entity);
                 JSONObject json = new JSONObject(jsonString);
                 JSONObject text = (JSONObject) json.getJSONObject("description").getJSONArray("captions").get(0);
-                System.out.println(text.getString("test"));
                 
-                return text.getString("test");
+                return text.getString("text");
             }
         } catch (Exception e) {
             // Display error message.

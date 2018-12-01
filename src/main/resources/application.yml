@@ -13,4 +13,7 @@ spring:
     #password: lkaisp18z363xnsf
     password: P@ssw0rd
     driver-class-name: org.mariadb.jdbc.Driver
-  jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect  
+  jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+azure:
+  subscription.key: 17c91ddddd45477aa6a723d3ea4bc76a
+  cognitive.uri: https://westcentralus.api.cognitive.microsoft.com/vision/v2.0/analyze?visualFeatures=Categories&language=en
