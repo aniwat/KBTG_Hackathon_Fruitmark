@@ -13,6 +13,8 @@ import com.kbtg.hackathon.fruitmark.azure.image.ImageAnalyze;
 import com.kbtg.hackathon.fruitmark.dao.MerchantRepository;
 import com.kbtg.hackathon.fruitmark.entity.Merchant;
 import com.kbtg.hackathon.fruitmark.line.CatalogueFlexMessageSupplier;
+import com.kbtg.hackathon.fruitmark.line.MerchantCatalogueFlexMessageSupplier;
+import com.kbtg.hackathon.fruitmark.line.ProductCatalogueFlexMessageSupplier;
 import com.kbtg.hackathon.fruitmark.service.SearchFruitService;
 import com.kbtg.hackathon.fruitmark.utils.DownloadedContent;
 import com.linecorp.bot.client.LineMessagingClient;
@@ -58,7 +60,7 @@ public class LineBotController {
 		
 		String text = event.getMessage().getText();
 		System.out.println("text: " + text);
-		handleText(text,replyToken);
+		handleText(text, replyToken);
 	}
 	
 	@EventMapping
@@ -104,16 +106,15 @@ public class LineBotController {
 			ImageAnalyze image = new ImageAnalyze();
 			String keyW0rd = image.analzye(jpg.getUri());
 			
-			handleText(keyW0rd,replyToken);
+			handleText(keyW0rd, replyToken);
 			
 		} catch (InterruptedException | ExecutionException e) {
-			handleText("ไม่รู้จัก",replyToken);
+			handleText("ไม่รู้จัก", replyToken);
 			throw new RuntimeException(e);
 		}
 	}
 	
-	private  void handleText(String text, String replyToken) {
-		
+	private void handleText(String text, String replyToken) {
 		String response = "ไม่รู้จักคำสั่ง";
 		if (text.startsWith("หาร้านค้า")) {
 			// Validate and Prepare Input
@@ -149,16 +150,21 @@ public class LineBotController {
 			response = service.searchByName("");
 			
 			// Build Line Response
-		} else if (text.startsWith("ทดสอบ")) {
-			List<QuickReplyItem> items = asList(QuickReplyItem.builder().action(CameraAction.withLabel("Action Label")).imageUrl(URI.create("https://example.com/image.png")).build(),
-			    QuickReplyItem.builder().action(CameraRollAction.withLabel("Roll Action Label")).build(),
-			    QuickReplyItem.builder().action(LocationAction.withLabel("Location Action")).build());
-			
-			TextMessage target = TextMessage.builder().text("TEST").quickReply(QuickReply.items(items)).build();
-			// return target;
-			this.reply(replyToken, target);
 		} else if (text.startsWith("ดูหน่อย")) {
 			this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
+		} else if (text.toLowerCase().startsWith("m1")) {
+			this.reply(replyToken, new MerchantCatalogueFlexMessageSupplier().get());
+		} else if (text.toLowerCase().startsWith("p1")) {
+			this.reply(replyToken, new ProductCatalogueFlexMessageSupplier().get());
+		} else {
+			List<QuickReplyItem> items = asList(
+			    // Take photo
+			    QuickReplyItem.builder().action(CameraAction.withLabel("ลองถ่ายรูปไหม?")).imageUrl(URI.create("https://example.com/image.png")).build(),
+			    // Choose from gallery
+			    QuickReplyItem.builder().action(CameraRollAction.withLabel("หาจากรูป")).build(),
+			    // Send Location
+			    QuickReplyItem.builder().action(LocationAction.withLabel("Location")).build());
+			this.reply(replyToken, TextMessage.builder().text("เมนูช่วยเหลือ").quickReply(QuickReply.items(items)).build());
 		}
 		
 		this.reply(replyToken, new TextMessage(response));
