@@ -68,6 +68,7 @@ public class ImageAnalyze {
 
             if (entity != null) {
                 // Format and display the JSON response.
+            	System.out.println(EntityUtils.toString(entity));
                 String jsonString = EntityUtils.toString(entity);
                 JSONObject json = new JSONObject(jsonString);
                 JSONObject text = (JSONObject) json.getJSONObject("description").getJSONArray("captions").get(0);
