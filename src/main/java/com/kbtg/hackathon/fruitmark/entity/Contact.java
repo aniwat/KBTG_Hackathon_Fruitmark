@@ -2,8 +2,18 @@ package com.kbtg.hackathon.fruitmark.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Contact {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "contact_id")
 	private Integer contactId;
 	private Integer ownerId;
 	private Integer ownerType;
@@ -14,6 +24,24 @@ public class Contact {
 	private String website;
 	private Timestamp updateDate;
 	
+	public Contact() {
+		super();
+	}
+
+	public Contact(Integer contactId, Integer ownerId, Integer ownerType, String address, String location,
+			String contactNo, String email, String website, Timestamp updateDate) {
+		super();
+		this.contactId = contactId;
+		this.ownerId = ownerId;
+		this.ownerType = ownerType;
+		this.address = address;
+		this.location = location;
+		this.contactNo = contactNo;
+		this.email = email;
+		this.website = website;
+		this.updateDate = updateDate;
+	}
+
 	public Integer getContactId() {
 		return contactId;
 	}

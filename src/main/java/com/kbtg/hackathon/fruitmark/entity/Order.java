@@ -2,13 +2,35 @@ package com.kbtg.hackathon.fruitmark.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Order {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "order_id")
 	private Integer orderId;
 	private Integer customerId;
 	private Integer orderStatus;
 	private Timestamp updateDate;
 	
+	public Order() {
+		super();
+	}
+
+	public Order(Integer orderId, Integer customerId, Integer orderStatus, Timestamp updateDate) {
+		super();
+		this.orderId = orderId;
+		this.customerId = customerId;
+		this.orderStatus = orderStatus;
+		this.updateDate = updateDate;
+	}
+
 	public Integer getOrderId() {
 		return orderId;
 	}

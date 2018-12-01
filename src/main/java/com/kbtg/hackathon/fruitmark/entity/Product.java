@@ -2,6 +2,7 @@ package com.kbtg.hackathon.fruitmark.entity;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +13,7 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "product_id")
 	private Integer productId;
 	private Integer merchantId;
 	private String productName;

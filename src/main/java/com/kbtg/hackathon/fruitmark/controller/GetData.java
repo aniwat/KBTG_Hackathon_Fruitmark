@@ -7,24 +7,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.common.collect.Lists;
+import com.kbtg.hackathon.fruitmark.dao.CustomerRepository;
 import com.kbtg.hackathon.fruitmark.dao.MerchantRepository;
 import com.kbtg.hackathon.fruitmark.dao.ProductRepository;
+import com.kbtg.hackathon.fruitmark.entity.Customer;
 import com.kbtg.hackathon.fruitmark.entity.Merchant;
 import com.kbtg.hackathon.fruitmark.entity.Product;
 
 @RestController
 public class GetData {
+
+	@Autowired
+	MerchantRepository mercRepo;
 	
 	@Autowired
-	MerchantRepository merchantRepo;
+	ProductRepository prodRepo;
 	
 	@Autowired
-	ProductRepository prdRepo;
+	CustomerRepository custRepo;
 	
 	@RequestMapping("/getmerchant")
 	public String getMerchant() {
 		System.out.println("> getMerchant");
-		Iterable<Merchant> list = merchantRepo.findAll();
+		Iterable<Merchant> list = mercRepo.findAll();
+		//TODO Use as this line below
+		List<Merchant> myList = Lists.newArrayList(list);
 		if (list != null) {
 			for (Merchant m : list) {
 				System.out.println("> " + ReflectionToStringBuilder.toString(m));
@@ -36,10 +44,12 @@ public class GetData {
 		return "Executed!";
 	}
 	
+	
 	@RequestMapping("/getmerchantbyname")
 	public String getMerchantByName() {
 		System.out.println("> getMerchantByName.");
-		List<Merchant> list = merchantRepo.findByMerchantName("%เธ—เธธเน€เธฃเธตเธขเธ�%");
+		//TODO Use as this line below
+		List<Merchant> list = mercRepo.findByMerchantName("%ทุเรียน%");
 		if (list != null) {
 			for (Merchant m : list) {
 				System.out.println("> " + ReflectionToStringBuilder.toString(m));
@@ -54,7 +64,8 @@ public class GetData {
 	@RequestMapping("/getprdbymerchant")
 	public String getPrdByMerchantId() {
 		System.out.println("> getPrdByMerchantId.");
-		List<Product> list = prdRepo.findPrdByMechantId(1);
+		//TODO Use as this line below
+		List<Product> list = prodRepo.findPrdByMechantId(1);
 		if (list != null) {
 			for (Product p : list) {
 				System.out.println("> " + ReflectionToStringBuilder.toString(p));
@@ -69,7 +80,8 @@ public class GetData {
 	@RequestMapping("/getprdbykeyword")
 	public String getPrdByKeyword() {
 		System.out.println("> getPrdByKeyword.");
-		List<Product> list = prdRepo.findPrdByKeyword("ทุเรียนไปหน่อย");
+		//TODO Use as this line below
+		List<Product> list = prodRepo.findPrdByKeyword("ทุเรียน");
 		if (list != null) {
 			for (Product p : list) {
 				System.out.println("> " + ReflectionToStringBuilder.toString(p));
@@ -79,6 +91,41 @@ public class GetData {
 		}
 		
 		return "Executed!";
+	}
+	
+	@RequestMapping("/getcustomer")
+	public String getCustomer() {
+		System.out.println("> getCustomer");
+		//TODO Use as this line below
+		List<Customer> list = custRepo.findByLineId("Cherprang");
+		if (list != null) {
+			for (Customer m : list) {
+				System.out.println("> " + ReflectionToStringBuilder.toString(m));
+			}
+		} else {
+			System.out.print("Empty!");
+		}
+		
+		return "Executed!";
+	}
+	
+	@RequestMapping("/getorder")
+	public String getOrderList() {
+		
+		return null;
+	}
+	
+	@RequestMapping("/cartOrder")
+	public String cartOrder() {
+		
+		return null;
+	}
+	
+	@RequestMapping("/saveOrder")
+	public String saveOrder() {
+		
+		
+		return null;
 	}
 	
 }
