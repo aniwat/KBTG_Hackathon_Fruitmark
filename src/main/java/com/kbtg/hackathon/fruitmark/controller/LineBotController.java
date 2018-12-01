@@ -12,6 +12,8 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kbtg.hackathon.fruitmark.dao.MerchantRepository;
+import com.kbtg.hackathon.fruitmark.entity.Merchant;
 import com.kbtg.hackathon.fruitmark.service.SearchFruitService;
 import com.kbtg.hackathon.fruitmark.service.SearchMerchantService;
 import com.kbtg.hackathon.fruitmark.utils.DownloadedContent;
@@ -45,6 +47,9 @@ public class LineBotController {
 	@Autowired
 	private LineMessagingClient lineMessagingClient;
 	
+	@Autowired
+	MerchantRepository merchantRepo;
+	
 	@EventMapping
 	public Message handleTextMessage(MessageEvent<TextMessageContent> event) {
 		System.out.println("Class LineBotController");
@@ -57,12 +62,29 @@ public class LineBotController {
 		String response = "ไม่รู้จักคำสั่ง";
 		if (text.startsWith("หาร้านค้า")) {
 			// Validate and Prepare Input
+			String[] words = text.split(" ");
+			String searchName = "";
+			if (words.length >= 2) {
+				searchName = words[1];
+			}
+			
+			System.out.println("searchName = " + searchName);
 			
 			// Process Input
-			SearchMerchantService service = new SearchMerchantService();
-			response = service.searchByName("");
+			Iterable<Merchant> list = null;
+			if (searchName.length() > 0) {
+				list = merchantRepo.findByMerchantName(searchName);
+			}
 			
 			// Build Line Response
+			response = "ไม่พบร้านค้า";
+			if (list != null) {
+				for (Merchant merchant : list) {
+					response += merchant.getMerchantName() + ",";
+				}
+			}
+			
+			System.out.println("response = " + response);
 		} else if (text.startsWith("หาสินค้า")) {
 			// Validate and Prepare Input
 			
@@ -116,41 +138,38 @@ public class LineBotController {
 	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
 		System.out.println(event.toString());
 		ImageMessageContent content = event.getMessage();
-	    String replyToken = event.getReplyToken();
-	    
-	    try {
-	        MessageContentResponse response = lineMessagingClient.getMessageContent(
-	            content.getId()).get();
-	        
-	        DownloadedContent downloadedContent = new DownloadedContent();
-	        
-	        DownloadedContent jpg = downloadedContent.saveContent("jpg", response);
-	        DownloadedContent previewImage = downloadedContent.createTempFile("jpg");
-
-	        system("convert", "-resize", "240x",
-	                jpg.getPath().toString(),
-	                previewImage.getPath().toString());
-
-	        reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
-
-	    } catch (InterruptedException | ExecutionException e) {
-	        reply(replyToken, new TextMessage("Cannot get image: " + content));
-	        throw new RuntimeException(e);
-	    }
+		String replyToken = event.getReplyToken();
+		
+		try {
+			MessageContentResponse response = lineMessagingClient.getMessageContent(content.getId()).get();
+			
+			DownloadedContent downloadedContent = new DownloadedContent();
+			
+			DownloadedContent jpg = downloadedContent.saveContent("jpg", response);
+			DownloadedContent previewImage = downloadedContent.createTempFile("jpg");
+			
+			system("convert", "-resize", "240x", jpg.getPath().toString(), previewImage.getPath().toString());
+			
+			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
+			
+		} catch (InterruptedException | ExecutionException e) {
+			reply(replyToken, new TextMessage("Cannot get image: " + content));
+			throw new RuntimeException(e);
+		}
 	}
-
-    private void system(String... args) {
-        ProcessBuilder processBuilder = new ProcessBuilder(args);
-        try {
-            Process start = processBuilder.start();
-            int i = start.waitFor();
-            System.out.println(String.format("result: %s => %s", Arrays.toString(args), i));
-        } catch (InterruptedException e) {
-            System.out.println("Interrupted " + e);
-            Thread.currentThread().interrupt();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }	
-    
+	
+	private void system(String... args) {
+		ProcessBuilder processBuilder = new ProcessBuilder(args);
+		try {
+			Process start = processBuilder.start();
+			int i = start.waitFor();
+			System.out.println(String.format("result: %s => %s", Arrays.toString(args), i));
+		} catch (InterruptedException e) {
+			System.out.println("Interrupted " + e);
+			Thread.currentThread().interrupt();
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
+		}
+	}
+	
 }

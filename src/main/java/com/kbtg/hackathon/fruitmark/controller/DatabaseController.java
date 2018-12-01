@@ -1,9 +1,6 @@
 package com.kbtg.hackathon.fruitmark.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,7 +14,6 @@ public class DatabaseController {
 	MerchantRepository repo;
 	
 	@RequestMapping("/database")
-	//public String index(@RequestBody String body, @RequestHeader HttpHeaders headers) {
 	public String index() {
 		System.out.println("Call DatabaseController");
 		
