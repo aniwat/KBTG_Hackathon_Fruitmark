@@ -11,14 +11,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
 public class ImageAnalyze {
-	
-	
-	@Autowired
-	private Environment env;
 	
     // **********************************************
     // *** Update or verify the following values. ***
@@ -70,7 +64,6 @@ public class ImageAnalyze {
 
             if (entity != null) {
                 // Format and display the JSON response.
-            	System.out.println(EntityUtils.toString(entity));
                 String jsonString = EntityUtils.toString(entity);
                 JSONObject json = new JSONObject(jsonString);
                 JSONObject text = (JSONObject) json.getJSONObject("description").getJSONArray("captions").get(0);
