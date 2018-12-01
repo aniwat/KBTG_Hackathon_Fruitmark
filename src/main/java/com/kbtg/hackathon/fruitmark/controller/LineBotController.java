@@ -197,7 +197,7 @@ public class LineBotController {
 			System.out.println("searchName = " + searchName);
 			
 			// Process Input
-			List<Product> list = null;
+			List<Product> list = new ArrayList<Product>();
 			if (searchName.length() > 0) {
 				try {
 					list = productRepo.findPrdByKeyword("%" + searchName.trim() + "%");
