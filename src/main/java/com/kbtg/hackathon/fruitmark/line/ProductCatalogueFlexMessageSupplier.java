@@ -39,6 +39,9 @@ public class ProductCatalogueFlexMessageSupplier implements Supplier<FlexMessage
 		if (list != null && list.size() > 0) {
 			int count = 0;
 			for (Product p : list) {
+				System.out.println("p.getProductName() = " + p.getProductName());
+				System.out.println("p.getPricePerUnit() = " + p.getPricePerUnit());
+				System.out.println("p.getProductImg() = " + p.getProductImg());
 				bList.add(createBubble(p.getProductName(), p.getPricePerUnit(), p.getProductImg()));
 				if (++count == 10) {
 					break;
