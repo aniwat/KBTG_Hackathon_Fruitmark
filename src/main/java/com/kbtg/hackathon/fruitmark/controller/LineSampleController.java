@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LineSampleController {
 	
-	@RequestMapping("/line")
+	@RequestMapping("/inspect")
 	public String index(@RequestBody String body, @RequestHeader HttpHeaders headers) {
 		System.out.println("Call LineSampleController");
 		System.out.println("============= HEADER =============");
