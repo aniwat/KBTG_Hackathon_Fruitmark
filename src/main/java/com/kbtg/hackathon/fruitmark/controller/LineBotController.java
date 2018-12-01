@@ -125,7 +125,7 @@ public class LineBotController {
 			}
 			
 			if (findWord.size() > 0) {
-				List<Product> list = null;
+				List<Product> list = new ArrayList<Product>();
 				
 				for (int i = 0; i < findWord.size(); i++) {
 					String find = findWord.get(i);
@@ -197,7 +197,7 @@ public class LineBotController {
 			System.out.println("searchName = " + searchName);
 			
 			// Process Input
-			List<Product> list = new ArrayList<Product>();
+			List<Product> list = null;
 			if (searchName.length() > 0) {
 				try {
 					list = productRepo.findPrdByKeyword("%" + searchName.trim() + "%");
