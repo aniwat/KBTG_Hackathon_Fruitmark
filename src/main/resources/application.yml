@@ -1,6 +1,6 @@
 line.bot:
-  channel-token: 'o9Uv1sms4JLPzqYTY5MxC0kluLNbKKgRcXVO9obDvtx8a5sAWs/KK2b0sisWY1RnKsvjSw65vO+weWFt7Sr2XqoG85exKGbBmIc4+0P0PTheu0Ncem5G94PwEQCYfy92aBeZNFX6gHGErgHoVMWFtgdB04t89/1O/w1cDnyilFU='
-  channel-secret: 'f0f8087e94c27fadac965e008b97d86e'
+  channel-token: '9q2HnGYMamyAHBEku7u3pLGNfhrjGdaoqGhVjElnL0GCYUydxQ/oESLayC6tRl2cGBPRSDSQWZ+dVBDuFwe+4Vu+8CcCZZ2+6W5E8iYvTAjS34kMsaKGVlUIM67HZpB25KGPMeYPbbzVpORWgqrW6wdB04t89/1O/w1cDnyilFU='
+  channel-secret: '5a4e09ac63ebd675659dcb29fa63826f'
   handler.path: /callback
 
 #spring.jpa.hibernate.ddl-auto=update
