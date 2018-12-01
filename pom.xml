@@ -44,8 +44,16 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency>		
+		</dependency>	
+		
+        <dependency>
+            <groupId>com.linecorp.bot</groupId>
+            <artifactId>line-bot-spring-boot</artifactId>
+            <version>1.20.0</version>
+        </dependency>
+        				
 	</dependencies>
+
 
 	<build>
 		<plugins>
