@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Product {
@@ -19,7 +18,6 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "product_id")
 	private Integer productId;
-//	private Integer merchantId;
 	private String productName;
 	private String productInfo;
 	private String productImg;
@@ -31,23 +29,10 @@ public class Product {
 	private String tag;
 	private Timestamp update_date;
 	
-	//@OneToOne(fetch=FetchType.LAZY, mappedBy="merchantId")
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "merchantId", nullable = false)
     private Merchant merchantId;
 	
-	/*@OneToOne()
-    @JoinColumn(name="merchantId")
-    private Merchant merchant;*/
-
-	/*public Merchant getMerchant() {
-		return merchant;
-	}
-
-	public void setMerchant(Merchant merchant) {
-		this.merchant = merchant;
-	}*/
-
 	public Product() {
 		super();
 	}

@@ -86,7 +86,7 @@ public class GetData {
 	public String getPrdByKeyword() {
 		System.out.println("> getPrdByKeyword.");
 		//TODO Use as this line below
-		List<Product> list = prodRepo.findPrdByKeyword("%ขาวใหญ่%");
+		List<Product> list = prodRepo.findPrdByKeyword("%น้ำหอมมาก%");
 		if (list != null) {
 			for (Product p : list) {
 				System.out.println("> " + ReflectionToStringBuilder.toString(p));
@@ -118,13 +118,15 @@ public class GetData {
 	
 	@RequestMapping("/getorderitem")
 	public String getOrderItem() {
-		
-		System.out.println("> getCustomer");
+		System.out.println("> getOrderItem");
 		//TODO Use as this line below
 		List<OrderItem> list = orderItemRepo.findByOrderId(1);
 		if (list != null) {
 			for (OrderItem m : list) {
 				System.out.println("> " + ReflectionToStringBuilder.toString(m));
+				System.out.println(">> " + m.getProductId().getProductName() 
+						+ "/" + m.getProductId().getPricePerUnit()
+						+ ":" + m.getProductId().getProductUnit());
 			}
 		} else {
 			System.out.print("Empty!");
@@ -132,8 +134,8 @@ public class GetData {
 		return "Executed!";
 	}
 	
-	@RequestMapping("/cartOrder")
-	public String cartOrder() {
+	@RequestMapping("/getcartitem")
+	public String getcartitem() {
 		
 		return null;
 	}
