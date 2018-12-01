@@ -16,7 +16,7 @@ public class MerchantDaoImpl implements MerchantService {
 	public List<Merchant> listMerchant() {
 		List<Merchant> result = new ArrayList<>();
 		result.add(new Merchant(1, "Name", "LinkImg", "LinkCover", 1, new Timestamp(0)));
-		return result;//getNamedParameterJdbcTemplate().query(SQL_QUERY_BY_IDS, Collections.singletonMap("ids", ids), new GroupDomainMapping());
+		return result;// getNamedParameterJdbcTemplate().query(SQL_QUERY_BY_IDS, Collections.singletonMap("ids", ids), new GroupDomainMapping());
 	}
-
+	
 }

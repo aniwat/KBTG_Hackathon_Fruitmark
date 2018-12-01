@@ -54,8 +54,8 @@ public class LineBotController {
 		String text = event.getMessage().getText();
 		System.out.println("Text: " + text);
 		
-		String response = "‡πÑ‡∏°‡πà‡∏£‡∏π‡πâ‡∏à‡∏±‡∏Å";
-		if (text.startsWith("‡∏Ñ‡πâ‡∏ô‡∏´‡∏≤‡∏£‡πâ‡∏≤‡∏ô")) {
+		String response = "‰¡Ë√ŸÈ®—°§” —Ëß";
+		if (text.startsWith("À“√È“π§È“")) {
 			// Validate and Prepare Input
 			
 			// Process Input
@@ -63,7 +63,7 @@ public class LineBotController {
 			response = service.searchByName("");
 			
 			// Build Line Response
-		} else if (text.startsWith("‡∏Ñ‡πâ‡∏ô‡∏´‡∏≤‡∏™‡∏¥‡∏ô‡∏Ñ‡πâ‡∏≤")) {
+		} else if (text.startsWith("À“ ‘π§È“")) {
 			// Validate and Prepare Input
 			
 			// Process Input
@@ -71,7 +71,7 @@ public class LineBotController {
 			response = service.searchByName("");
 			
 			// Build Line Response
-		} else if (text.startsWith("‡∏ó‡∏î‡∏™‡∏≠‡∏ö")) {
+		} else if (text.startsWith("∑¥ Õ∫")) {
 			List<QuickReplyItem> items = asList(QuickReplyItem.builder().action(CameraAction.withLabel("Action Label")).imageUrl(URI.create("https://example.com/image.png")).build(),
 			    QuickReplyItem.builder().action(CameraRollAction.withLabel("Roll Action Label")).build(),
 			    QuickReplyItem.builder().action(LocationAction.withLabel("Location Action")).build());

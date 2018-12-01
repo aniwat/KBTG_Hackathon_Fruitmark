@@ -22,7 +22,7 @@ public class FruitmarkApplication {
 		ApplicationContext ctx = SpringApplication.run(FruitmarkApplication.class, args);
 		
 		System.out.println("Inspect the beans provided by Spring Boot:");
-
+		
 		String[] beanNames = ctx.getBeanDefinitionNames();
 		Arrays.sort(beanNames);
 		for (String beanName : beanNames) {
