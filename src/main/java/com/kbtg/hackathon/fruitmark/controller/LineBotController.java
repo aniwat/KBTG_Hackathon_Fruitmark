@@ -11,11 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kbtg.hackathon.fruitmark.azure.image.ImageAnalyze;
 import com.kbtg.hackathon.fruitmark.dao.MerchantRepository;
+import com.kbtg.hackathon.fruitmark.dao.ProductRepository;
 import com.kbtg.hackathon.fruitmark.entity.Merchant;
+import com.kbtg.hackathon.fruitmark.entity.Product;
 import com.kbtg.hackathon.fruitmark.line.CatalogueFlexMessageSupplier;
 import com.kbtg.hackathon.fruitmark.line.MerchantCatalogueFlexMessageSupplier;
 import com.kbtg.hackathon.fruitmark.line.ProductCatalogueFlexMessageSupplier;
-import com.kbtg.hackathon.fruitmark.service.SearchFruitService;
 import com.kbtg.hackathon.fruitmark.utils.DownloadedContent;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
@@ -48,6 +49,9 @@ public class LineBotController {
 	
 	@Autowired
 	MerchantRepository merchantRepo;
+	
+	@Autowired
+	ProductRepository productRepo;
 	
 	@EventMapping
 	public void handleTextMessage(MessageEvent<TextMessageContent> event) {
@@ -115,7 +119,6 @@ public class LineBotController {
 	}
 	
 	private void handleText(String text, String replyToken) {
-		String response = "ไม่รู้จักคำสั่ง";
 		if (text.startsWith("หาร้านค้า")) {
 			// Validate and Prepare Input
 			String[] words = text.split(" ");
@@ -127,29 +130,53 @@ public class LineBotController {
 			System.out.println("searchName = " + searchName);
 			
 			// Process Input
-			Iterable<Merchant> list = null;
+			List<Merchant> list = null;
 			if (searchName.length() > 0) {
-				list = merchantRepo.findByMerchantName(searchName);
-			}
-			
-			// Build Line Response
-			response = "ไม่พบร้านค้า";
-			if (list != null) {
-				response = "";
-				for (Merchant merchant : list) {
-					response += merchant.getMerchantName() + ",";
+				try {
+					list = merchantRepo.findByMerchantName("%" + searchName.trim() + "%");
+				} catch (Exception e) {
+					e.printStackTrace();
+					this.reply(replyToken, new TextMessage("พังนะจ๊ะ"));
 				}
 			}
 			
-			System.out.println("response = " + response);
+			// Build Line Response
+			if (list != null && list.size() > 0) {
+				MerchantCatalogueFlexMessageSupplier mc = new MerchantCatalogueFlexMessageSupplier();
+				mc.setList(list);
+				this.reply(replyToken, mc.get());
+			} else {
+				this.reply(replyToken, new TextMessage("ไม่พบข้อมูลร้านค้า"));
+			}
 		} else if (text.startsWith("หาสินค้า")) {
 			// Validate and Prepare Input
+			String[] words = text.split(" ");
+			String searchName = "";
+			if (words.length >= 2) {
+				searchName = words[1];
+			}
+			
+			System.out.println("searchName = " + searchName);
 			
 			// Process Input
-			SearchFruitService service = new SearchFruitService();
-			response = service.searchByName("");
+			List<Product> list = null;
+			if (searchName.length() > 0) {
+				try {
+					list = productRepo.findPrdByKeyword("%" + searchName.trim() + "%");
+				} catch (Exception e) {
+					e.printStackTrace();
+					this.reply(replyToken, new TextMessage("พังนะจ๊ะ"));
+				}
+			}
 			
 			// Build Line Response
+			if (list != null && list.size() > 0) {
+				ProductCatalogueFlexMessageSupplier pc = new ProductCatalogueFlexMessageSupplier();
+				pc.setList(list);
+				this.reply(replyToken, pc.get());
+			} else {
+				this.reply(replyToken, new TextMessage("ไม่พบข้อมูลร้านค้า"));
+			}
 		} else if (text.startsWith("ดูหน่อย")) {
 			this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
 		} else if (text.toLowerCase().startsWith("m1")) {
@@ -166,9 +193,6 @@ public class LineBotController {
 			    QuickReplyItem.builder().action(LocationAction.withLabel("Location")).build());
 			this.reply(replyToken, TextMessage.builder().text("เมนูช่วยเหลือ").quickReply(QuickReply.items(items)).build());
 		}
-		
-		this.reply(replyToken, new TextMessage(response));
-		
 	}
 	
 }
