@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.kbtg.hackathon.fruitmark.entity.Merchant;
@@ -12,6 +13,6 @@ import com.kbtg.hackathon.fruitmark.entity.Merchant;
 public interface MerchantRepository extends CrudRepository<Merchant, Integer> {
 	
 	@Query("select m from Merchant m where m.merchantName LIKE :merchantName")
-    public List<Merchant> findByMerchantName(String merchantName);
+    public List<Merchant> findByMerchantName(@Param("merchantName") String merchantName);
 	
 }

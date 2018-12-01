@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.common.collect.Lists;
 import com.kbtg.hackathon.fruitmark.dao.CustomerRepository;
 import com.kbtg.hackathon.fruitmark.dao.MerchantRepository;
+import com.kbtg.hackathon.fruitmark.dao.OrderItemRepository;
 import com.kbtg.hackathon.fruitmark.dao.ProductRepository;
 import com.kbtg.hackathon.fruitmark.entity.Customer;
 import com.kbtg.hackathon.fruitmark.entity.Merchant;
+import com.kbtg.hackathon.fruitmark.entity.OrderItem;
 import com.kbtg.hackathon.fruitmark.entity.Product;
 
 @RestController
@@ -26,6 +28,9 @@ public class GetData {
 	
 	@Autowired
 	CustomerRepository custRepo;
+	
+	@Autowired
+	OrderItemRepository orderItemRepo;
 	
 	@RequestMapping("/getmerchant")
 	public String getMerchant() {
@@ -109,10 +114,20 @@ public class GetData {
 		return "Executed!";
 	}
 	
-	@RequestMapping("/getorder")
-	public String getOrderList() {
+	@RequestMapping("/getorderitem")
+	public String getOrderItem() {
 		
-		return null;
+		System.out.println("> getCustomer");
+		//TODO Use as this line below
+		List<OrderItem> list = orderItemRepo.findByOrderId(1);
+		if (list != null) {
+			for (OrderItem m : list) {
+				System.out.println("> " + ReflectionToStringBuilder.toString(m));
+			}
+		} else {
+			System.out.print("Empty!");
+		}
+		return "Executed!";
 	}
 	
 	@RequestMapping("/cartOrder")
