@@ -3,6 +3,7 @@ package com.kbtg.hackathon.fruitmark.controller;
 import static java.util.Arrays.asList;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -90,7 +91,7 @@ public class LineBotController {
 	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
 		try {
 			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
-			System.out.printf("Sent messages: {}", apiResponse);
+			System.out.printf("Sent messages: {}", apiResponse.getMessage());
 		} catch (InterruptedException | ExecutionException e) {
 			throw new RuntimeException(e);
 		}
@@ -110,10 +111,47 @@ public class LineBotController {
 			ImageAnalyze image = new ImageAnalyze();
 			String keyW0rd = image.analzye(jpg.getUri());
 			
-			handleText(keyW0rd, replyToken);
+			System.out.println("keyW0rd = " + keyW0rd);
+			ArrayList<String> findWord = new ArrayList<String>();
+			if (keyW0rd != null && keyW0rd.trim().length() != 0) {
+				String[] sp = keyW0rd.split(" ");
+				if (sp != null && sp.length > 0) {
+					for (String s : sp) {
+						if (s.length() >= 3) {
+							findWord.add(s);
+						}
+					}
+				}
+			}
 			
+			if (findWord.size() > 0) {
+				List<Product> list = null;
+				
+				for (int i = 0; i < findWord.size(); i++) {
+					String find = findWord.get(i);
+					List<Product> tempList = null;
+					try {
+						tempList = productRepo.findPrdByKeyword("%" + find + "%");
+						list.addAll(tempList);
+					} catch (Exception e) {
+						e.printStackTrace();
+						this.reply(replyToken, new TextMessage("พังนะจ๊ะ"));
+					}
+				}
+				
+				// Build Line Response
+				if (list != null && list.size() > 0) {
+					ProductCatalogueFlexMessageSupplier pc = new ProductCatalogueFlexMessageSupplier();
+					pc.setList(list);
+					this.reply(replyToken, pc.get());
+				} else {
+					this.reply(replyToken, new TextMessage("ไม่พบข้อมูลสินค้า"));
+				}
+			} else {
+				this.reply(replyToken, new TextMessage("ไม่พบข้อมูลสินค้า"));
+			}
 		} catch (InterruptedException | ExecutionException e) {
-			handleText("ไม่รู้จัก", replyToken);
+			this.reply(replyToken, new TextMessage("พังนะจ๊ะ"));
 			throw new RuntimeException(e);
 		}
 	}
@@ -175,7 +213,7 @@ public class LineBotController {
 				pc.setList(list);
 				this.reply(replyToken, pc.get());
 			} else {
-				this.reply(replyToken, new TextMessage("ไม่พบข้อมูลร้านค้า"));
+				this.reply(replyToken, new TextMessage("ไม่พบข้อมูลสินค้า"));
 			}
 		} else if (text.startsWith("ดูหน่อย")) {
 			this.reply(replyToken, new CatalogueFlexMessageSupplier().get());

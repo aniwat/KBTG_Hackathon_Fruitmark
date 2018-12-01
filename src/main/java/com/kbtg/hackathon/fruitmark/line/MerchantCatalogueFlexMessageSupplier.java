@@ -37,8 +37,12 @@ public class MerchantCatalogueFlexMessageSupplier implements Supplier<FlexMessag
 	public FlexMessage get() {
 		ArrayList<Bubble> bList = new ArrayList<Bubble>();
 		if (list != null && list.size() > 0) {
+			int count = 0;
 			for (Merchant m : list) {
 				bList.add(createBubble(m.getMerchantName(), m.getMerchantImg()));
+				if (++count == 10) {
+					break;
+				}
 			}
 		}
 		final Carousel carousel = Carousel.builder().contents(bList).build();

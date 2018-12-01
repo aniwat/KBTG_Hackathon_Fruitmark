@@ -37,8 +37,12 @@ public class ProductCatalogueFlexMessageSupplier implements Supplier<FlexMessage
 	public FlexMessage get() {
 		ArrayList<Bubble> bList = new ArrayList<Bubble>();
 		if (list != null && list.size() > 0) {
+			int count = 0;
 			for (Product p : list) {
 				bList.add(createBubble(p.getProductName(), p.getPricePerUnit(), p.getProductImg()));
+				if (++count == 10) {
+					break;
+				}
 			}
 		}
 		final Carousel carousel = Carousel.builder().contents(bList).build();
