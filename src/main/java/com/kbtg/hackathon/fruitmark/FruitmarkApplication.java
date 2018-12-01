@@ -17,7 +17,7 @@ public class FruitmarkApplication {
 		String[] beanNames = ctx.getBeanDefinitionNames();
 		Arrays.sort(beanNames);
 		for (String beanName : beanNames) {
-			System.out.println("Bean Definition Name : " + beanName);
+			//System.out.println("Bean Definition Name : " + beanName);
 		}
 	}
 	

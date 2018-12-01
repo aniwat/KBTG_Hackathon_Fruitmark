@@ -7,12 +7,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SampleController {
+public class LineSampleController {
 	
-	@RequestMapping("/")
+	@RequestMapping("/line")
 	public String index(@RequestBody String body, @RequestHeader HttpHeaders headers) {
-		System.out.println("Call SampleController");
-		return "Hello World!";
+		System.out.println("Call LineSampleController");
+		System.out.println("============= HEADER =============");
+		System.out.println(headers);
+		System.out.println("==================================");
+		System.out.println("============== BODY ==============");
+		System.out.println(body);
+		System.out.println("==================================");
+		return body;
 	}
 	
 }
