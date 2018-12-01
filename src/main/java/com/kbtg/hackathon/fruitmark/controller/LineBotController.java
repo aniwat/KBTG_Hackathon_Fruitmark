@@ -2,7 +2,10 @@ package com.kbtg.hackathon.fruitmark.controller;
 
 import static java.util.Arrays.asList;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -11,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kbtg.hackathon.fruitmark.service.SearchFruitService;
 import com.kbtg.hackathon.fruitmark.service.SearchMerchantService;
+import com.kbtg.hackathon.fruitmark.utils.DownloadedContent;
 import com.linecorp.bot.client.LineMessagingClient;
+import com.linecorp.bot.client.MessageContentResponse;
 //import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
 import com.linecorp.bot.model.action.CameraAction;
@@ -19,8 +24,10 @@ import com.linecorp.bot.model.action.CameraRollAction;
 import com.linecorp.bot.model.action.LocationAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
+import com.linecorp.bot.model.event.message.ImageMessageContent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.message.ImageMessage;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
@@ -105,4 +112,45 @@ public class LineBotController {
 		}
 	}
 	
+	@EventMapping
+	public void handleImageMessage(MessageEvent<ImageMessageContent> event) {
+		System.out.println(event.toString());
+		ImageMessageContent content = event.getMessage();
+	    String replyToken = event.getReplyToken();
+	    
+	    try {
+	        MessageContentResponse response = lineMessagingClient.getMessageContent(
+	            content.getId()).get();
+	        
+	        DownloadedContent downloadedContent = new DownloadedContent();
+	        
+	        DownloadedContent jpg = downloadedContent.saveContent("jpg", response);
+	        DownloadedContent previewImage = downloadedContent.createTempFile("jpg");
+
+	        system("convert", "-resize", "240x",
+	                jpg.getPath().toString(),
+	                previewImage.getPath().toString());
+
+	        reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
+
+	    } catch (InterruptedException | ExecutionException e) {
+	        reply(replyToken, new TextMessage("Cannot get image: " + content));
+	        throw new RuntimeException(e);
+	    }
+	}
+
+    private void system(String... args) {
+        ProcessBuilder processBuilder = new ProcessBuilder(args);
+        try {
+            Process start = processBuilder.start();
+            int i = start.waitFor();
+            System.out.println(String.format("result: %s => %s", Arrays.toString(args), i));
+        } catch (InterruptedException e) {
+            System.out.println("Interrupted " + e);
+            Thread.currentThread().interrupt();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }	
+    
 }
