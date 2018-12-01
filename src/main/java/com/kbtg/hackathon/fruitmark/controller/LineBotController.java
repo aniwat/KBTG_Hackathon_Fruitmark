@@ -150,13 +150,12 @@ public class LineBotController {
 			DownloadedContent downloadedContent = new DownloadedContent();
 			
 			DownloadedContent jpg = downloadedContent.saveContent("jpg", response);
-			DownloadedContent previewImage = downloadedContent.createTempFile("jpg");
+//			DownloadedContent previewImage = downloadedContent.createTempFile("jpg");
 			
-			system("convert", "-resize", "240x", jpg.getPath().toString(), previewImage.getPath().toString());
+//			system("convert", "-resize", "240x", jpg.getPath().toString(), previewImage.getPath().toString());
 			System.out.println("original " + jpg.getUri());
-			System.out.println("preview " + previewImage.getUri());
 			ImageAnalyze image = new ImageAnalyze();
-			String keyW0rd = image.analzye(previewImage.getUri());
+			String keyW0rd = image.analzye(jpg.getUri());
 			System.out.println("WORD :  " + keyW0rd);
 			this.reply(event.getReplyToken(), new TextMessage(keyW0rd));
 //			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
