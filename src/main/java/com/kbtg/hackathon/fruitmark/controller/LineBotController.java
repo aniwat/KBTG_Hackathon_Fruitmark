@@ -135,7 +135,7 @@ public class LineBotController {
 						list.addAll(tempList);
 					} catch (Exception e) {
 						e.printStackTrace();
-						this.reply(replyToken, new TextMessage("æ—ßπ–®Í–"));
+						this.reply(replyToken, new TextMessage("‡∏û‡∏±‡∏á‡∏ô‡∏∞‡∏à‡πä‡∏∞"));
 					}
 				}
 				
@@ -145,19 +145,19 @@ public class LineBotController {
 					pc.setList(list);
 					this.reply(replyToken, pc.get());
 				} else {
-					this.reply(replyToken, new TextMessage("‰¡Ëæ∫¢ÈÕ¡Ÿ≈ ‘π§È“"));
+					this.reply(replyToken, new TextMessage("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•‡∏™‡∏¥‡∏ô‡∏Ñ‡πâ‡∏≤")); 
 				}
 			} else {
-				this.reply(replyToken, new TextMessage("‰¡Ëæ∫¢ÈÕ¡Ÿ≈ ‘π§È“"));
+				this.reply(replyToken, new TextMessage("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•‡∏™‡∏¥‡∏ô‡∏Ñ‡πâ‡∏≤"));
 			}
 		} catch (InterruptedException | ExecutionException e) {
-			this.reply(replyToken, new TextMessage("æ—ßπ–®Í–"));
+			this.reply(replyToken, new TextMessage("‡∏û‡∏±‡∏á‡∏ô‡∏∞‡∏à‡πä‡∏∞"));
 			throw new RuntimeException(e);
 		}
 	}
 	
 	private void handleText(String text, String replyToken) {
-		if (text.startsWith("À“√È“π§È“")) {
+		if (text.startsWith("‡∏´‡∏≤‡∏£‡πâ‡∏≤‡∏ô‡∏Ñ‡πâ‡∏≤")) {
 			// Validate and Prepare Input
 			String[] words = text.split(" ");
 			String searchName = "";
@@ -174,7 +174,7 @@ public class LineBotController {
 					list = merchantRepo.findByMerchantName("%" + searchName.trim() + "%");
 				} catch (Exception e) {
 					e.printStackTrace();
-					this.reply(replyToken, new TextMessage("æ—ßπ–®Í–"));
+					this.reply(replyToken, new TextMessage("‡∏û‡∏±‡∏á‡∏ô‡∏∞‡∏à‡πä‡∏∞"));
 				}
 			}
 			
@@ -184,9 +184,9 @@ public class LineBotController {
 				mc.setList(list);
 				this.reply(replyToken, mc.get());
 			} else {
-				this.reply(replyToken, new TextMessage("‰¡Ëæ∫¢ÈÕ¡Ÿ≈√È“π§È“"));
+				this.reply(replyToken, new TextMessage("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•‡∏£‡πâ‡∏≤‡∏ô‡∏Ñ‡πâ‡∏≤"));
 			}
-		} else if (text.startsWith("À“ ‘π§È“")) {
+		} else if (text.startsWith("‡∏´‡∏≤‡∏™‡∏¥‡∏ô‡∏Ñ‡πâ‡∏≤")) {
 			// Validate and Prepare Input
 			String[] words = text.split(" ");
 			String searchName = "";
@@ -203,7 +203,7 @@ public class LineBotController {
 					list = productRepo.findPrdByKeyword("%" + searchName.trim() + "%");
 				} catch (Exception e) {
 					e.printStackTrace();
-					this.reply(replyToken, new TextMessage("æ—ßπ–®Í–"));
+					this.reply(replyToken, new TextMessage("‡∏û‡∏±‡∏á‡∏ô‡∏∞‡∏à‡πä‡∏∞"));
 				}
 			}
 			
@@ -213,9 +213,9 @@ public class LineBotController {
 				pc.setList(list);
 				this.reply(replyToken, pc.get());
 			} else {
-				this.reply(replyToken, new TextMessage("‰¡Ëæ∫¢ÈÕ¡Ÿ≈ ‘π§È“"));
+				this.reply(replyToken, new TextMessage("‡πÑ‡∏°‡πà‡∏û‡∏ö‡∏Ç‡πâ‡∏≠‡∏°‡∏π‡∏•‡∏™‡∏¥‡∏ô‡∏Ñ‡πâ‡∏≤"));
 			}
-		} else if (text.startsWith("¥ŸÀπËÕ¬")) {
+		} else if (text.startsWith("‡∏î‡∏π‡∏´‡∏ô‡πà‡∏≠‡∏¢")) {
 			this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
 		} else if (text.toLowerCase().startsWith("m1")) {
 			this.reply(replyToken, new MerchantCatalogueFlexMessageSupplier().get());
@@ -224,12 +224,12 @@ public class LineBotController {
 		} else {
 			List<QuickReplyItem> items = asList(
 			    // Take photo
-			    QuickReplyItem.builder().action(CameraAction.withLabel("≈Õß∂Ë“¬√Ÿª‰À¡?")).imageUrl(URI.create("https://example.com/image.png")).build(),
+			    QuickReplyItem.builder().action(CameraAction.withLabel("‡∏•‡∏≠‡∏á‡∏ñ‡πà‡∏≤‡∏¢‡∏£‡∏π‡∏õ‡πÑ‡∏´‡∏°?")).imageUrl(URI.create("https://example.com/image.png")).build(),
 			    // Choose from gallery
-			    QuickReplyItem.builder().action(CameraRollAction.withLabel("À“®“°√Ÿª")).build(),
+			    QuickReplyItem.builder().action(CameraRollAction.withLabel("‡∏´‡∏≤‡∏à‡∏≤‡∏Å‡∏£‡∏π‡∏õ")).build(),
 			    // Send Location
 			    QuickReplyItem.builder().action(LocationAction.withLabel("Location")).build());
-			this.reply(replyToken, TextMessage.builder().text("‡¡πŸ™Ë«¬‡À≈◊Õ").quickReply(QuickReply.items(items)).build());
+			this.reply(replyToken, TextMessage.builder().text("‡πÄ‡∏°‡∏ô‡∏π‡∏ä‡πà‡∏ß‡∏¢‡πÄ‡∏´‡∏•‡∏∑‡∏≠").quickReply(QuickReply.items(items)).build());
 		}
 	}
 	
