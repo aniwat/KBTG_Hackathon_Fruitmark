@@ -6,4 +6,8 @@ public class SearchMerchantService {
 		return "ร้าน kbtg";
 	}
 	
+	public String searchByMerchant(String name) {
+		return "ร้าน kbtg";
+	}
+	
 }

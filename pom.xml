@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>fruitmark</name>
+	<name>Fruitmark</name>
 	<description>Fruitmark Project for KBTG&#39;s Hackathon</description>
 
 	<parent>
@@ -45,13 +45,17 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>	
-		
         <dependency>
             <groupId>com.linecorp.bot</groupId>
             <artifactId>line-bot-spring-boot</artifactId>
             <version>1.20.0</version>
         </dependency>
-        			
+		<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.4</version>
+            <scope>provided</scope>
+        </dependency>        
 	</dependencies>
 
 	<build>
