@@ -154,8 +154,8 @@ public class LineBotController {
 			
 			system("convert", "-resize", "240x", jpg.getPath().toString(), previewImage.getPath().toString());
 			
-			ImageAnalyze image = new ImageAnalyze(previewImage.getUri());
-			String keyW0rd = image.analzye();
+			ImageAnalyze image = new ImageAnalyze();
+			String keyW0rd = image.analzye(previewImage.getUri());
 			System.out.println("WORD :  " + keyW0rd);
 			this.reply(event.getReplyToken(), new TextMessage(keyW0rd));
 //			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));

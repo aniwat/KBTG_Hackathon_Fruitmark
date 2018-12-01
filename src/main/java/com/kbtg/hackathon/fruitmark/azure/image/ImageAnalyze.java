@@ -36,11 +36,9 @@ public class ImageAnalyze {
 
     private String imageToAnalyze;
     
-    public ImageAnalyze(String uriImage) {
+    public String analzye(String uriImage) {
+    	
     	this.imageToAnalyze = uriImage;
-    }
-    
-    public String analzye() {
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 
         try {
@@ -63,7 +61,7 @@ public class ImageAnalyze {
             StringEntity requestEntity =
                     new StringEntity("{\"url\":\"" + imageToAnalyze + "\"}");
             request.setEntity(requestEntity);
-
+            System.out.println("url : " + requestEntity);
             // Call the REST API method and get the response entity.
             HttpResponse response = httpClient.execute(request);
             HttpEntity entity = response.getEntity();
