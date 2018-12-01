@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.kbtg.hackathon.fruitmark.dao.MerchantRepository;
 import com.kbtg.hackathon.fruitmark.entity.Merchant;
+import com.kbtg.hackathon.fruitmark.line.CatalogueFlexMessageSupplier;
 import com.kbtg.hackathon.fruitmark.service.SearchFruitService;
-import com.kbtg.hackathon.fruitmark.service.SearchMerchantService;
 import com.kbtg.hackathon.fruitmark.utils.DownloadedContent;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.client.MessageContentResponse;
@@ -51,7 +51,7 @@ public class LineBotController {
 	MerchantRepository merchantRepo;
 	
 	@EventMapping
-	public Message handleTextMessage(MessageEvent<TextMessageContent> event) {
+	public void handleTextMessage(MessageEvent<TextMessageContent> event) {
 		System.out.println("Class LineBotController");
 		System.out.println("Method handleTextMessage");
 		System.out.println("Event: " + event);
@@ -99,10 +99,13 @@ public class LineBotController {
 			    QuickReplyItem.builder().action(LocationAction.withLabel("Location Action")).build());
 			
 			TextMessage target = TextMessage.builder().text("TEST").quickReply(QuickReply.items(items)).build();
-			return target;
+			// return target;
+			this.reply(event.getReplyToken(), target);
+		} else if (text.startsWith("ดูหน่อย")) {
+			this.reply(event.getReplyToken(), new CatalogueFlexMessageSupplier().get());
 		}
 		
-		return new TextMessage(response);
+		this.reply(event.getReplyToken(), new TextMessage(response));
 	}
 	
 	@EventMapping
