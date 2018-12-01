@@ -12,6 +12,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.kbtg.hackathon.fruitmark.azure.image.ImageAnalyze;
 import com.kbtg.hackathon.fruitmark.dao.MerchantRepository;
 import com.kbtg.hackathon.fruitmark.entity.Merchant;
 import com.kbtg.hackathon.fruitmark.line.CatalogueFlexMessageSupplier;
@@ -153,10 +154,14 @@ public class LineBotController {
 			
 			system("convert", "-resize", "240x", jpg.getPath().toString(), previewImage.getPath().toString());
 			
-			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
+			ImageAnalyze image = new ImageAnalyze(previewImage.getUri());
+			String keyW0rd = image.analzye();
+			System.out.println("WORD :  " + keyW0rd);
+			this.reply(event.getReplyToken(), new TextMessage(keyW0rd));
+//			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
 			
 		} catch (InterruptedException | ExecutionException e) {
-			reply(replyToken, new TextMessage("Cannot get image: " + content));
+//			reply(replyToken, new TextMessage("Cannot get image: " + content));
 			throw new RuntimeException(e);
 		}
 	}
