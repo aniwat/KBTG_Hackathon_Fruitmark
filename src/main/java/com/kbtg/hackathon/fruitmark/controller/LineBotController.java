@@ -1,5 +1,8 @@
 package com.kbtg.hackathon.fruitmark.controller;
 
+import static java.util.Arrays.asList;
+
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -9,7 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.kbtg.hackathon.fruitmark.service.SearchFruitService;
 import com.kbtg.hackathon.fruitmark.service.SearchMerchantService;
 import com.linecorp.bot.client.LineMessagingClient;
+//import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.CameraAction;
+import com.linecorp.bot.model.action.CameraRollAction;
+import com.linecorp.bot.model.action.LocationAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.StickerMessageContent;
@@ -17,6 +24,8 @@ import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.StickerMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.quickreply.QuickReply;
+import com.linecorp.bot.model.message.quickreply.QuickReplyItem;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
@@ -56,7 +65,12 @@ public class LineBotController {
 			
 			// Build Line Response
 		} else if (text.startsWith("ทดสอบ")) {
-			response = "{}";
+			List<QuickReplyItem> items = asList(QuickReplyItem.builder().action(CameraAction.withLabel("Action Label")).imageUrl(URI.create("https://example.com/image.png")).build(),
+			    QuickReplyItem.builder().action(CameraRollAction.withLabel("Roll Action Label")).build(),
+			    QuickReplyItem.builder().action(LocationAction.withLabel("Location Action")).build());
+			
+			TextMessage target = TextMessage.builder().text("TEST").quickReply(QuickReply.items(items)).build();
+			return target;
 		}
 		
 		return new TextMessage(response);
