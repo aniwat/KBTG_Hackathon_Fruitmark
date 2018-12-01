@@ -4,9 +4,13 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Product {
@@ -15,7 +19,7 @@ public class Product {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "product_id")
 	private Integer productId;
-	private Integer merchantId;
+//	private Integer merchantId;
 	private String productName;
 	private String productInfo;
 	private String productImg;
@@ -26,12 +30,29 @@ public class Product {
 	private Integer productStatus;
 	private String tag;
 	private Timestamp update_date;
+	
+	//@OneToOne(fetch=FetchType.LAZY, mappedBy="merchantId")
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "merchantId", nullable = false)
+    private Merchant merchantId;
+	
+	/*@OneToOne()
+    @JoinColumn(name="merchantId")
+    private Merchant merchant;*/
+
+	/*public Merchant getMerchant() {
+		return merchant;
+	}
+
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
+	}*/
 
 	public Product() {
 		super();
 	}
 
-	public Product(Integer productId, Integer merchantId, String productName, String productInfo, String productImg,
+	public Product(Integer productId, Merchant merchantId, String productName, String productInfo, String productImg,
 			String productUnit, String pricePerUnit, Integer rating, String recommend, Integer productStatus,
 			String tag, Timestamp update_date) {
 		super();
@@ -57,11 +78,11 @@ public class Product {
 		this.productId = productId;
 	}
 
-	public Integer getMerchantId() {
+	public Merchant getMerchantId() {
 		return merchantId;
 	}
 
-	public void setMerchantId(Integer merchantId) {
+	public void setMerchantId(Merchant merchantId) {
 		this.merchantId = merchantId;
 	}
 

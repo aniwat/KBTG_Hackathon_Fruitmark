@@ -15,7 +15,7 @@ public interface ProductRepository extends CrudRepository<Product, Integer>{
 	@Query("select p from Product p where p.merchantId = :merchantId")
     public List<Product> findPrdByMechantId(@Param("merchantId") Integer merchantId);
 	
-	@Query("select p from Product p where p.productName LIKE :keyword")
+	@Query("select p from Product p where p.tag LIKE :keyword")
     public List<Product> findPrdByKeyword(@Param("keyword") String keyword);
 
 }

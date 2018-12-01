@@ -86,10 +86,12 @@ public class GetData {
 	public String getPrdByKeyword() {
 		System.out.println("> getPrdByKeyword.");
 		//TODO Use as this line below
-		List<Product> list = prodRepo.findPrdByKeyword("ทุเรียน");
+		List<Product> list = prodRepo.findPrdByKeyword("%ขาวใหญ่%");
 		if (list != null) {
 			for (Product p : list) {
 				System.out.println("> " + ReflectionToStringBuilder.toString(p));
+				String merchantName = p.getMerchantId().getMerchantName();
+				System.out.println(">> " + merchantName);
 			}
 		} else {
 			System.out.print("Empty!");
