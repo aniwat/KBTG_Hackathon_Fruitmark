@@ -2,3 +2,12 @@ line.bot:
   channel-token: '9q2HnGYMamyAHBEku7u3pLGNfhrjGdaoqGhVjElnL0GCYUydxQ/oESLayC6tRl2cGBPRSDSQWZ+dVBDuFwe+4Vu+8CcCZZ2+6W5E8iYvTAjS34kMsaKGVlUIM67HZpB25KGPMeYPbbzVpORWgqrW6wdB04t89/1O/w1cDnyilFU='
   channel-secret: '5a4e09ac63ebd675659dcb29fa63826f'
   handler.path: /callback
+
+#spring.jpa.hibernate.ddl-auto=update
+spring:
+  datasource:
+    url: jdbc:mariadb://p2d0untihotgr5f6.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/x4b3jdswpr8bw7jw
+    username: ouenzxiu8mljdite
+    password: lkaisp18z363xnsf
+    driver-class-name: org.mariadb.jdbc.Driver
+  jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect  

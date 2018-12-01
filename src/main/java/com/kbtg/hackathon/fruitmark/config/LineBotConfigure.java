@@ -1,10 +1,12 @@
 package com.kbtg.hackathon.fruitmark.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.kbtg.hackathon.fruitmark.FruitmarkApplication;
 
+@Configuration
 public class LineBotConfigure implements WebMvcConfigurer {
 	
     @Override
