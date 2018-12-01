@@ -11,8 +11,7 @@ import com.kbtg.hackathon.fruitmark.entity.Merchant;
 @Repository
 public interface MerchantRepository extends CrudRepository<Merchant, Integer> {
 	
-	// @Query(nativeQuery = true, value = "SELECT * FROM merchant WHERE merchant_name LIKE '%?1%'")
-	@Query(nativeQuery = true, value = "SELECT * FROM merchant")
-	List<Merchant> findByMerchantName(String name);
+	@Query("select m from Merchant m where m.merchantName LIKE :merchantName")
+    public List<Merchant> findByMerchantName(String merchantName);
 	
 }
