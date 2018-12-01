@@ -30,12 +30,12 @@ public class LineBotController {
 	private LineMessagingClient lineMessagingClient;
 	
 	@EventMapping
-	public Message handleTextMessage(MessageEvent<TextMessageContent> e) {
+	public Message handleTextMessage(MessageEvent<TextMessageContent> event) {
 		System.out.println("Class LineBotController");
 		System.out.println("Method handleTextMessage");
-		System.out.println("Event: " + e);
+		System.out.println("Event: " + event);
 		
-		String text = e.getMessage().getText();
+		String text = event.getMessage().getText();
 		System.out.println("Text: " + text);
 		
 		String response = "ไม่รู้จัก";
@@ -56,7 +56,7 @@ public class LineBotController {
 			
 			// Build Line Response
 		} else if (text.startsWith("ทดสอบ")) {
-			
+			response = "{}";
 		}
 		
 		return new TextMessage(response);
@@ -69,26 +69,26 @@ public class LineBotController {
 		System.out.println("Event: " + event);
 	}
 	
-//	@EventMapping
-//	public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
-//		handleSticker(event.getReplyToken(), event.getMessage());
-//	}
+	@EventMapping
+	public void handleStickerMessageEvent(MessageEvent<StickerMessageContent> event) {
+		handleSticker(event.getReplyToken(), event.getMessage());
+	}
 	
-//	private void handleSticker(String replyToken, StickerMessageContent content) {
-//		reply(replyToken, new StickerMessage(content.getPackageId(), content.getStickerId()));
-//	}
+	private void handleSticker(String replyToken, StickerMessageContent content) {
+		reply(replyToken, new StickerMessage(content.getPackageId(), content.getStickerId()));
+	}
 	
-//	private void reply(@NonNull String replyToken, @NonNull Message message) {
-//		reply(replyToken, Collections.singletonList(message));
-//	}
+	private void reply(@NonNull String replyToken, @NonNull Message message) {
+		reply(replyToken, Collections.singletonList(message));
+	}
 	
-//	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
-//		try {
-//			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
-//			System.out.printf("Sent messages: {}", apiResponse);
-//		} catch (InterruptedException | ExecutionException e) {
-//			throw new RuntimeException(e);
-//		}
-//	}
+	private void reply(@NonNull String replyToken, @NonNull List<Message> messages) {
+		try {
+			BotApiResponse apiResponse = lineMessagingClient.replyMessage(new ReplyMessage(replyToken, messages)).get();
+			System.out.printf("Sent messages: {}", apiResponse);
+		} catch (InterruptedException | ExecutionException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	
 }
