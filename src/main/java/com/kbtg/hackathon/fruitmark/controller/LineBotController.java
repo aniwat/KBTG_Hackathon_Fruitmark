@@ -153,7 +153,8 @@ public class LineBotController {
 			DownloadedContent previewImage = downloadedContent.createTempFile("jpg");
 			
 			system("convert", "-resize", "240x", jpg.getPath().toString(), previewImage.getPath().toString());
-			
+			System.out.println("original " + jpg.getUri());
+			System.out.println("preview " + previewImage.getUri());
 			ImageAnalyze image = new ImageAnalyze();
 			String keyW0rd = image.analzye(previewImage.getUri());
 			System.out.println("WORD :  " + keyW0rd);
