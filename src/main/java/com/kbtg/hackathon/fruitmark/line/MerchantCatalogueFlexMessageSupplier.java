@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
+import com.kbtg.hackathon.fruitmark.entity.Merchant;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
@@ -22,14 +23,35 @@ import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 
 public class MerchantCatalogueFlexMessageSupplier implements Supplier<FlexMessage> {
 	
+	private List<Merchant> list;
+	
+	public List<Merchant> getList() {
+		return list;
+	}
+	
+	public void setList(List<Merchant> list) {
+		this.list = list;
+	}
+	
 	@Override
 	public FlexMessage get() {
+		ArrayList<Bubble> bList = new ArrayList<Bubble>();
+		if (list != null && list.size() > 0) {
+			for (Merchant m : list) {
+				bList.add(createBubble(m.getMerchantName(), m.getMerchantImg()));
+			}
+		}
+		final Carousel carousel = Carousel.builder().contents(bList).build();
+		return new FlexMessage("เลือกร้านค้า", carousel);
+	}
+	
+	public FlexMessage getTest() {
 		final Bubble bubble1 = createBubble("ร้าน 1", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
 		final Bubble bubble2 = createBubble("ร้าน 2", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
-		final Bubble bubble3 = createBubble("ร้าน 2", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
-		final Bubble bubble4 = createBubble("ร้าน 2", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
-		final Bubble bubble5 = createBubble("ร้าน 2", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
-		final Bubble bubble6 = createBubble("ร้าน 2", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
+		final Bubble bubble3 = createBubble("ร้าน 3", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
+		final Bubble bubble4 = createBubble("ร้าน 4", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
+		final Bubble bubble5 = createBubble("ร้าน 5", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
+		final Bubble bubble6 = createBubble("ร้าน 6", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
 		final Carousel carousel = Carousel.builder().contents(asList(bubble1, bubble2, bubble3, bubble4, bubble5, bubble6)).build();
 		return new FlexMessage("เลือกร้านค้า", carousel);
 	}

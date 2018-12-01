@@ -14,7 +14,7 @@ import com.kbtg.hackathon.fruitmark.entity.Product;
 
 @RestController
 public class GetData {
-
+	
 	@Autowired
 	MerchantRepository merchantRepo;
 	
@@ -39,7 +39,7 @@ public class GetData {
 	@RequestMapping("/getmerchantbyname")
 	public String getMerchantByName() {
 		System.out.println("> getMerchantByName.");
-		List<Merchant> list = merchantRepo.findByMerchantName("%ทุเรียน%");
+		List<Merchant> list = merchantRepo.findByMerchantName("%เธ—เธธเน€เธฃเธตเธขเธ�%");
 		if (list != null) {
 			for (Merchant m : list) {
 				System.out.println("> " + ReflectionToStringBuilder.toString(m));
@@ -69,7 +69,7 @@ public class GetData {
 	@RequestMapping("/getprdbykeyword")
 	public String getPrdByKeyword() {
 		System.out.println("> getPrdByKeyword.");
-		List<Product> list = prdRepo.findPrdByKeyword("ทุเรียน");
+		List<Product> list = prdRepo.findPrdByKeyword("ทุเรียนไปหน่อย");
 		if (list != null) {
 			for (Product p : list) {
 				System.out.println("> " + ReflectionToStringBuilder.toString(p));

@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Supplier;
 
+import com.kbtg.hackathon.fruitmark.entity.Product;
 import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.message.FlexMessage;
 import com.linecorp.bot.model.message.flex.component.Box;
@@ -22,8 +23,29 @@ import com.linecorp.bot.model.message.flex.unit.FlexMarginSize;
 
 public class ProductCatalogueFlexMessageSupplier implements Supplier<FlexMessage> {
 	
+	private List<Product> list;
+	
+	public List<Product> getList() {
+		return list;
+	}
+	
+	public void setList(List<Product> list) {
+		this.list = list;
+	}
+	
 	@Override
 	public FlexMessage get() {
+		ArrayList<Bubble> bList = new ArrayList<Bubble>();
+		if (list != null && list.size() > 0) {
+			for (Product p : list) {
+				bList.add(createBubble(p.getProductName(), p.getPricePerUnit(), p.getProductImg()));
+			}
+		}
+		final Carousel carousel = Carousel.builder().contents(bList).build();
+		return new FlexMessage("เลือกซื้อสินค้า", carousel);
+	}
+	
+	public FlexMessage getTest() {
 		final Bubble bubble1 = createBubble("มะละกอ", "199.00", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
 		final Bubble bubble2 = createBubble("กล้วย", "19.00", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
 		final Bubble bubble3 = createBubble("ส้ม", "19.00", "https://cloud-cube.s3.amazonaws.com/a57pmdvurwdr/public/dog.jpg");
