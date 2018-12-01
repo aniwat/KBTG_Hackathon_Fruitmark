@@ -57,8 +57,11 @@ public class LineBotController {
 		System.out.println("Method handleTextMessage");
 		System.out.println("Event: " + event);
 		
+		String replyToken = event.getReplyToken();
+		System.out.println("replyToken = " + replyToken);
+		
 		String text = event.getMessage().getText();
-		System.out.println("Text: " + text);
+		System.out.println("text: " + text);
 		
 		String response = "ไม่รู้จักคำสั่ง";
 		if (text.startsWith("หาร้านค้า")) {
@@ -80,6 +83,7 @@ public class LineBotController {
 			// Build Line Response
 			response = "ไม่พบร้านค้า";
 			if (list != null) {
+				response = "";
 				for (Merchant merchant : list) {
 					response += merchant.getMerchantName() + ",";
 				}
@@ -101,12 +105,12 @@ public class LineBotController {
 			
 			TextMessage target = TextMessage.builder().text("TEST").quickReply(QuickReply.items(items)).build();
 			// return target;
-			this.reply(event.getReplyToken(), target);
+			this.reply(replyToken, target);
 		} else if (text.startsWith("ดูหน่อย")) {
-			this.reply(event.getReplyToken(), new CatalogueFlexMessageSupplier().get());
+			this.reply(replyToken, new CatalogueFlexMessageSupplier().get());
 		}
 		
-		this.reply(event.getReplyToken(), new TextMessage(response));
+		this.reply(replyToken, new TextMessage(response));
 	}
 	
 	@EventMapping
@@ -150,18 +154,18 @@ public class LineBotController {
 			DownloadedContent downloadedContent = new DownloadedContent();
 			
 			DownloadedContent jpg = downloadedContent.saveContent("jpg", response);
-//			DownloadedContent previewImage = downloadedContent.createTempFile("jpg");
+			// DownloadedContent previewImage = downloadedContent.createTempFile("jpg");
 			
-//			system("convert", "-resize", "240x", jpg.getPath().toString(), previewImage.getPath().toString());
+			// system("convert", "-resize", "240x", jpg.getPath().toString(), previewImage.getPath().toString());
 			System.out.println("original " + jpg.getUri());
 			ImageAnalyze image = new ImageAnalyze();
 			String keyW0rd = image.analzye(jpg.getUri());
 			System.out.println("WORD :  " + keyW0rd);
 			this.reply(event.getReplyToken(), new TextMessage(keyW0rd));
-//			reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
+			// reply(replyToken, new ImageMessage(jpg.getUri(), previewImage.getUri()));
 			
 		} catch (InterruptedException | ExecutionException e) {
-//			reply(replyToken, new TextMessage("Cannot get image: " + content));
+			// reply(replyToken, new TextMessage("Cannot get image: " + content));
 			throw new RuntimeException(e);
 		}
 	}
