@@ -8,7 +8,7 @@ spring:
   datasource:
     #url: jdbc:mariadb://p2d0untihotgr5f6.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/x4b3jdswpr8bw7jw
     #url: jdbc:mariadb://127.0.0.1:3306/x4b3jdswpr8bw7jw
-    url: jdbc:mariadb://0.tcp.ngrok.io:17359/x4b3jdswpr8bw7jw
+    url: jdbc:mariadb://0.tcp.ngrok.io:13310/x4b3jdswpr8bw7jw
     #username: ouenzxiu8mljdite
     username: root
     #password: lkaisp18z363xnsf
