@@ -4,9 +4,12 @@ import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class OrderItem {
@@ -15,16 +18,23 @@ public class OrderItem {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "order_item_id")
 	private Integer orderItemId;
+	
+	/*@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "orderId", nullable = false)*/
 	private Integer orderId;
-	private Integer productId;
+	
 	private Integer orderAmt;
 	private Timestamp orderDate;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "productId", nullable = false)
+	private Product productId;
 	
 	public OrderItem() {
 		super();
 	}
 
-	public OrderItem(Integer orderItemId, Integer orderId, Integer productId, Integer orderAmt, Timestamp orderDate) {
+	public OrderItem(Integer orderItemId, Integer orderId, Product productId, Integer orderAmt, Timestamp orderDate) {
 		super();
 		this.orderItemId = orderItemId;
 		this.orderId = orderId;
@@ -49,11 +59,11 @@ public class OrderItem {
 		this.orderId = orderId;
 	}
 	
-	public Integer getProductId() {
+	public Product getProductId() {
 		return productId;
 	}
 	
-	public void setProductId(Integer productId) {
+	public void setProductId(Product productId) {
 		this.productId = productId;
 	}
 	
